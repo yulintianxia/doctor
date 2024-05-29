@@ -7,6 +7,14 @@ const getData = () => {
     });
   }
 };
+
+// onLaunch() {
+//   uni.showShareMenu({
+//     withShareTicket: true,
+//     menus: ["shareAppMessage", "shareTimeline"],
+//   });
+// }
+
 getData();
 
 </script>

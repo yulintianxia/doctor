@@ -21,8 +21,10 @@
           </view>
           <view class="center_info">
             <view class="center_name">
-              <view>{{ user.nickName  || '暂无' }}</view>
-              <view v-if="user.userType != 0">{{ user.department || '暂无' }}</view>
+              <view>{{ user.nickName || "暂无" }}</view>
+              <view v-if="user.userType != 0">{{
+                user.department || "暂无"
+              }}</view>
               <view v-if="user.sex == 0">
                 <image src="/static/imgs/man.png"></image>
               </view>
@@ -44,7 +46,7 @@
             </view>
             <view class="center_vip">
               <view class="vip_text">
-                <text>{{ user.introduce || '暂无介绍' }}</text>
+                <text>{{ user.introduce || "暂无介绍" }}</text>
               </view>
             </view>
           </view>
@@ -133,11 +135,16 @@ const url = "doctorRatings";
 
 onShow(() => {
   let data = uni.getStorageSync("userData");
+  console.log('data',data);
   if (data) {
     user.value = data;
     if (data.userType != 0) {
       getListItem();
     }
+  } else {
+    uni.navigateTo({
+      url: "/pages/login/index",
+    });
   }
 });
 const message = useMessage();
@@ -511,7 +518,7 @@ star {
 }
 .grade-container {
   .grade {
-    color:orange;
+    color: orange;
   }
 }
 </style>
