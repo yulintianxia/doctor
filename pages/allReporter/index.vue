@@ -74,7 +74,7 @@ onLoad(() => {
 
 /*跳转到个人打卡记录 */
 const goDetails = (userId) => {
-  console.log("userId2222", userId);
+  
   uni.navigateTo({
     url: `/pages/detailDay/index?id=${userId}`,
   });

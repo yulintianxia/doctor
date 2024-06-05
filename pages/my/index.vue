@@ -168,9 +168,12 @@ const submit = () => {
 
 const getListItem = async () => {
   console.log("user", user);
+   
+
+
   let responseData = await request(url + "/" + user.value.userId, "GET");
   console.log("responseData", responseData);
-  if (responseData.userId) {
+  if (responseData?.userId) {
     // listItem.value = responseData || {};
     user.value = {
       ...user.value,
