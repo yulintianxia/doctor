@@ -58,7 +58,7 @@
           </view>
           <view class="center_info">
             <view class="center_container">
-              <view>{{ listItem.nickName }}</view>
+              <view>{{ listItem.nickname }}</view>
               <view class="department">
                 {{ listItem.department }}
               </view>
@@ -382,7 +382,7 @@ const submit = async () => {
   border-radius: 8rpx !important;
   height: 300rpx;
   box-sizing: border-box;
-  padding: 20rpx 0 0 20rpx !important;
+  padding: 10rpx 0 0 20rpx !important;
   margin-top: -30rpx;
   textarea {
     height: 300rpx;

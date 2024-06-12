@@ -8,68 +8,39 @@
     <view class="form">
       <template v-if="mode == 'login'">
         <view class="inputWrapper">
-          <input
-            class="input"
-            type="tel"
-            v-model="phone"
-            :always-embed="true"
-            maxlength="11"
-            placeholder="请输入手机号"
-          />
+          <input class="input" type="tel" v-model="phone" :always-embed="true" maxlength="11" placeholder="请输入手机号" />
         </view>
         <view class="inputWrapper">
-          <input
-            class="input"
-            type="password"
-            v-model="password"
-            maxlength="6"
-            placeholder="请输入密码"
-          />
+          <input class="input" type="password" v-model="password" maxlength="6" placeholder="请输入密码" />
         </view>
       </template>
       <template v-else>
         <view class="inputWrapper">
-          <input
-            class="input"
-            type="text"
-            v-model="nickname"
-            :always-embed="true"
-            maxlength="10"
-            placeholder="请输入用户名"
-          />
+          <input class="input" type="text" v-model="name" :always-embed="true" maxlength="20" placeholder="请输入姓名" />
         </view>
         <view class="inputWrapper">
-          <input
-            class="input"
-            type="tel"
-            v-model="phone"
-            :always-embed="true"
-            maxlength="11"
-            placeholder="请输入手机号"
-          />
+          <input class="input" type="password" v-model="password" placeholder="请输入密码" />
         </view>
         <view class="inputWrapper">
-          <input
-            class="input"
-            type="password"
-            v-model="password"
-            maxlength="6"
-            placeholder="请输入密码"
-          />
+          <input class="input" type="tel" v-model="phone" :always-embed="true" maxlength="11" placeholder="请输入手机号" />
         </view>
+        <view class="inputWrapper">
+          <!-- <input class="input" type="text" v-model="role" placeholder="请选择角色" /> -->
+          <wd-picker :columns="roles" label="角色" :display-format="checkRole" v-model="role" @confirm="handleConfirm" />
+        </view>
+        <view class="inputWrapper">
+          <!-- <input class="input" type="text" v-model="deptId"  placeholder="请选择部门" /> -->
+          <wd-picker :columns="deptIds" label="部门" v-model="deptId" @confirm="handleConfirm" />
+        </view>
+        <view class="inputWrapper">
+          <wd-picker :columns="posts" label="岗位" v-model="post" @confirm="handleConfirm" />
+        </view>
+
       </template>
 
       <view class="login-container">
-        <wd-button
-          custom-class="loginBtn"
-          v-if="mode == 'login'"
-          size="large"
-          @click="login"
-          >登录</wd-button
-        >
-        <wd-button custom-class="loginBtn" size="large" v-else @click="register"
-          >注册</wd-button
-        >
+        <wd-button custom-class="loginBtn" v-if="mode == 'login'" size="large" @click="login">登录</wd-button>
+        <wd-button custom-class="loginBtn" size="large" v-else @click="register">注册</wd-button>
       </view>
       <view class="register-container">
         <text class="register-btn" @click="changeMode">
@@ -81,9 +52,14 @@
 </template>
 
 <script>
-let url = "user/login";
+let url = "oauth2/token";
 let registerurl = "user/register";
+let roleUrl = 'role/list';
+let postUrl = 'post/list';
+let treeUrl = 'dept/tree';
 import { request } from "../../src/common/request.js";
+import { VITE_OAUTH2_PASSWORD_CLIENT, userTypeArray, userTypeEnum, VITE_OAUTH2_MOBILE_CLIENT, VITE_PWD_ENC_KEY, FORM_CONTENT_TYPE, encryption } from '@/src/common/config.js';
+import { btoa } from '../../src/common/base64.js';
 export default {
   data() {
     return {
@@ -92,10 +68,39 @@ export default {
       password: "",
       username: "",
       mode: "login",
+      roles: [],
+      deptIds: [],
+      posts: [],
     };
   },
-  onLoad() {},
+  onLoad() {
+
+  },
   methods: {
+    getList() {
+
+
+    },
+    handleConfirm() {
+
+    },
+    checkRole(items) {
+
+      return items
+        .map((item) => {
+          return item.label
+        })
+        .join('-')
+    },
+    async options() {
+      let roles = await request(roleUrl, "GET");
+      let posts = await request(postUrl, "GET");
+      this.roles = roles;
+      console.log('this.roles', this.roles);
+      this.roles = posts;
+
+    },
+
     async login() {
       if (!this.phone || !this.password) {
         uni.showToast({
@@ -107,20 +112,47 @@ export default {
           uni.hideToast();
         }, 200);
       } else {
-        // huanzhe
+        const basicAuth = 'Basic ' + btoa(VITE_OAUTH2_PASSWORD_CLIENT);
+        uni.setStorageSync("basicAuth", basicAuth);
+        let encPassword = this.password;
+        // 密码加密
+        if (VITE_PWD_ENC_KEY) {
+          encPassword = encryption(encPassword, VITE_PWD_ENC_KEY);
+        }
         let data = {
           username: this.phone,
-          password: this.password,
+          password: encPassword,
+          grant_type: 'password',
+          scope: 'server'
         };
-        let responseData = await request(url, "POST", data);
+        let header = {
+          skipToken: true,
+          Authorization: basicAuth,
+          'Content-Type': FORM_CONTENT_TYPE,
+        }
+        let responseData = await request(url, "POST", data, header);
         console.log("responseData", responseData);
+        if (responseData.username) {
+          let authorities = responseData.user_info.authorities;
+          let userType = '';
+          authorities.map((item) => {
+            if (userTypeArray.includes(item.authority)) {
+              userType = userTypeEnum[item.authority];
+              return
+            }
+          })
+          console.log('userType', userType);
+          let userData = {
+            username: responseData.username,
+            userId: responseData.user_id,
+            userType
+          }
 
-        if (responseData.userName) {
-          uni.setStorageSync("userData", responseData);
+          uni.setStorageSync("userData", userData);
 
           let data = uni.getStorageSync("userData");
-          console.log("datass", data);
-
+          console.log('data', data);
+          uni.setStorageSync("token", responseData.access_token);
           uni.switchTab({
             url: "/pages/index/index",
           });
@@ -148,7 +180,7 @@ export default {
           password: this.password,
         };
         let responseData = await request(registerurl, "POST", data);
-        console.log('responseData',responseData);
+        console.log('responseData', responseData);
         if (responseData) {
           uni.showToast({
             title: "注册成功",
@@ -157,10 +189,10 @@ export default {
 
           });
 
-          setTimeout(()=>{
+          setTimeout(() => {
             uni.navigateTo({ url: '/pages/login/index' })
-          },500)
-        
+          }, 500)
+
         } else {
           uni.showToast({
             title: "网络错误，请重新尝试",
@@ -178,6 +210,7 @@ export default {
 
       if (this.mode == "login") {
         this.mode = "register";
+        this.options();
       } else {
         this.mode = "login";
       }
@@ -222,12 +255,12 @@ body {
 
 .form {
   padding: 0 100rpx;
-  margin-top: 160rpx;
+  margin-top: 120rpx;
 }
 
 .inputWrapper {
   width: 100%;
-  height: 80rpx;
+  height: 90rpx;
   background: white;
   border-radius: 40rpx;
   box-sizing: border-box;
@@ -264,10 +297,12 @@ body {
   font-size: 30rpx;
   margin-top: 40rpx;
 }
+
 .login-container {
   margin: 0 auto;
   text-align: center;
 }
+
 .register-container {
   width: 160rpx;
   float: right;
@@ -275,6 +310,7 @@ body {
 
   margin-top: 20rpx;
   background: none;
+
   text {
     color: white;
     text-align: right;

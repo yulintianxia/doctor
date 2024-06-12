@@ -337,7 +337,6 @@
               custom-textarea-container-class="text-area"
               v-model="form.otherWork"
               placeholder="请填写其他工作"
-              :maxlength="300"
               :no-border="true"
               :disabled="checkdisabled"
             />
@@ -354,7 +353,6 @@
               custom-textarea-container-class="text-area"
               v-model="form.marketFeedback"
               placeholder="请填写市场反馈"
-              :maxlength="300"
               :no-border="true"
               :disabled="checkdisabled"
             />
@@ -372,7 +370,6 @@
               custom-textarea-container-class="text-area"
               v-model="form.remark"
               placeholder="请填写备注"
-              :maxlength="300"
               :no-border="true"
               :disabled="checkdisabled"
             />
@@ -675,7 +672,7 @@ const submit = async () => {
   border-radius: 8rpx !important;
   height: 240rpx;
   box-sizing: border-box;
-  padding: 20rpx 0 0 20rpx !important;
+  padding: 10rpx 0 0 20rpx !important;
   margin-top: -30rpx;
   textarea {
     height: 240rpx;

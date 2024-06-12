@@ -10,7 +10,7 @@
               </view>
               <view class="center_info">
                 <view class="center_name">
-                  <view>{{ item.nickName }}</view>
+                  <view>{{ item.nickname }}</view>
                   <view v-if="item.sex == 0">
                     <image src="/static/imgs/man.png"></image>
                   </view>
@@ -51,7 +51,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { onPageScroll, onReachBottom, onLoad } from "@dcloudio/uni-app";
-let url = "doctor/daily/allMonthStatistics";
+let url = "doctor/daily/deptMonthStatistics";
 import { request } from "../../src/common/request.js";
 const dataList = ref([]);
 onMounted(() => {
@@ -60,11 +60,16 @@ onMounted(() => {
 
 /* 获取用户数据 */
 const getData = async () => {
-  let responseData = await request(url, "GET");
-
+  let data = {
+    current: 1,
+    size: 99999999
+  }
+  let responseData = await request(url, "GET", data);
   console.log("responseData", responseData);
-  if (responseData) {
-    dataList.value = responseData || [];
+  dataList.value = [];
+  if (responseData.records) {
+    dataList.value = responseData.records|| [];
+    
   }
 };
 

@@ -26,7 +26,7 @@
             </view>
             <view class="center_info">
               <view class="center_container">
-                <view>{{ item.nickName }}</view>
+                <view>{{ item.nickname }}</view>
                 <view class='department'>
                      {{item.department}}
                 </view>

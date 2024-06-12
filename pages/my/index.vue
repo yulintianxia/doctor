@@ -21,7 +21,7 @@
           </view>
           <view class="center_info">
             <view class="center_name">
-              <view>{{ user.nickName || "暂无" }}</view>
+              <view>{{ user.nickname || "暂无" }}</view>
               <view v-if="user.userType != 0">{{
                 user.department || "暂无"
               }}</view>
@@ -84,34 +84,26 @@
       <wd-cell
         title="我的日报"
         custom-class="cell-border"
-        v-if="user.userType != 0"
         to="/pages/reporter/index"
         is-link
         center
+        v-if="user.userType != 'HZ'"
       >
       </wd-cell>
       <wd-cell
         title="义诊反馈"
         custom-class="cell-border"
         to="/pages/feedback/index"
-        v-if="user.userType == 0"
+        v-if="user.userType == 'HZ'"
         is-link
         center
       >
       </wd-cell>
-      <!-- <wd-cell
-        title="在线打卡"
-        custom-class="cell-border"
-        v-if="user.userType == 1"
-        is-link
-        center
-      >
-      </wd-cell> -->
       <wd-cell
         title="查看部门医生日报"
         to="/pages/allReporter/index"
         custom-class="cell-border"
-        v-if="user.userType == 2"
+        v-if="user.userType != 'YS' || user.userType != 'HZ'"
         is-link
         center
       >
@@ -138,7 +130,7 @@ onShow(() => {
   console.log('data',data);
   if (data) {
     user.value = data;
-    if (data.userType != 0) {
+    if (data.userType) {
       getListItem();
     }
   } else {
@@ -168,9 +160,6 @@ const submit = () => {
 
 const getListItem = async () => {
   console.log("user", user);
-   
-
-
   let responseData = await request(url + "/" + user.value.userId, "GET");
   console.log("responseData", responseData);
   if (responseData?.userId) {
