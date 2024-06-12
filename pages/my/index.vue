@@ -7,23 +7,18 @@
           <view class="center_img">
             <image
               src="/static/imgs/yisheng.png"
-              v-if="user.userType != 0"
+              v-if="user.userType != 'HZ'"
             ></image>
             <image
               src="/static/imgs/bingren.png"
-              v-if="user.userType == 0"
+              v-if="user.userType == 'HZ'"
             ></image>
-            <!-- <image
-              src="/static/imgs/lingdao.png"
-              v-if="user.userType == 2"
-            ></image> -->
-            <!-- <open-data type="userAvatarUrl" class="user_head"></open-data> -->
           </view>
           <view class="center_info">
             <view class="center_name">
               <view>{{ user.nickname || "暂无" }}</view>
-              <view v-if="user.userType != 0">{{
-                user.department || "暂无"
+              <view v-if="user.userType != 'HZ'">{{
+                user.department
               }}</view>
               <view v-if="user.sex == 0">
                 <image src="/static/imgs/man.png"></image>
@@ -32,7 +27,7 @@
                 <image src="/static/imgs/woman.png"></image>
               </view>
             </view>
-            <view class="grade-container" v-if="user.userType != 0">
+            <view class="grade-container" v-if="user.userType != 'HZ'">
               <view
                 >医术:&nbsp;<text class="grade">{{
                   user.medicalSkillRating
@@ -71,15 +66,6 @@
     <!-- to="/pages/reporter/index" -->
     <wd-gap bg-color="#f4f4f4"></wd-gap>
     <wd-cell-group>
-      <!-- <wd-cell
-        title="我的日报"
-        custom-class="cell-border"
-        v-if="user.userType == 1"
-      
-        is-link
-        center
-      >
-      </wd-cell> -->
 
       <wd-cell
         title="我的日报"
@@ -103,7 +89,7 @@
         title="查看部门医生日报"
         to="/pages/allReporter/index"
         custom-class="cell-border"
-        v-if="user.userType != 'YS' || user.userType != 'HZ'"
+        v-if="user.userType != 'YS' && user.userType != 'HZ'"
         is-link
         center
       >

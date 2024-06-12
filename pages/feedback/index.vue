@@ -12,17 +12,13 @@
             <view class="center_img">
               <image
                 src="/static/imgs/yisheng.png"
-                v-if="item.userType != 0"
+                v-if="item.userType != 'HZ'"
               ></image>
               <image
                 src="/static/imgs/bingren.png"
-                v-if="item.userType == 0"
+                v-if="item.userType == 'HZ'"
               ></image>
-              <!-- <image
-                src="/static/imgs/lingdao.png"
-                v-if="item.userType == 2"
-              ></image> -->
-              <!-- <open-data type="userAvatarUrl" class="user_head"></open-data> -->
+
             </view>
             <view class="center_info">
               <view class="center_container">

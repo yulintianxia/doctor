@@ -8,34 +8,35 @@
     <view class="form">
       <template v-if="mode == 'login'">
         <view class="inputWrapper">
-          <input class="input" type="tel" v-model="phone" :always-embed="true" maxlength="11" placeholder="请输入手机号" />
+          <input class="input" type="text" v-model="username" :always-embed="true"  placeholder="请输入用户名" />
         </view>
         <view class="inputWrapper">
           <input class="input" type="password" v-model="password" maxlength="6" placeholder="请输入密码" />
         </view>
       </template>
       <template v-else>
+        <!-- <view class="inputWrapper">
+          <input class="input" type="text" v-model="username" :always-embed="true" maxlength="30" placeholder="请输入姓名" />
+        </view> -->
         <view class="inputWrapper">
-          <input class="input" type="text" v-model="name" :always-embed="true" maxlength="20" placeholder="请输入姓名" />
+          <input class="input" type="tel" v-model="phone" :always-embed="true" maxlength="11" placeholder="请输入手机号(手机号即用户名)" />
         </view>
         <view class="inputWrapper">
           <input class="input" type="password" v-model="password" placeholder="请输入密码" />
         </view>
+
+     
+        <!--
         <view class="inputWrapper">
-          <input class="input" type="tel" v-model="phone" :always-embed="true" maxlength="11" placeholder="请输入手机号" />
-        </view>
-        <view class="inputWrapper">
-          <!-- <input class="input" type="text" v-model="role" placeholder="请选择角色" /> -->
           <wd-picker :columns="roles" label="角色" :display-format="checkRole" v-model="role" @confirm="handleConfirm" />
         </view>
         <view class="inputWrapper">
-          <!-- <input class="input" type="text" v-model="deptId"  placeholder="请选择部门" /> -->
           <wd-picker :columns="deptIds" label="部门" v-model="deptId" @confirm="handleConfirm" />
         </view>
         <view class="inputWrapper">
           <wd-picker :columns="posts" label="岗位" v-model="post" @confirm="handleConfirm" />
         </view>
-
+      --->
       </template>
 
       <view class="login-container">
@@ -53,7 +54,7 @@
 
 <script>
 let url = "oauth2/token";
-let registerurl = "user/register";
+let registerurl = "register/user";
 let roleUrl = 'role/list';
 let postUrl = 'post/list';
 let treeUrl = 'dept/tree';
@@ -77,32 +78,8 @@ export default {
 
   },
   methods: {
-    getList() {
-
-
-    },
-    handleConfirm() {
-
-    },
-    checkRole(items) {
-
-      return items
-        .map((item) => {
-          return item.label
-        })
-        .join('-')
-    },
-    async options() {
-      let roles = await request(roleUrl, "GET");
-      let posts = await request(postUrl, "GET");
-      this.roles = roles;
-      console.log('this.roles', this.roles);
-      this.roles = posts;
-
-    },
-
     async login() {
-      if (!this.phone || !this.password) {
+      if (!this.username || !this.password) {
         uni.showToast({
           title: "请填写数据",
           icon: "none",
@@ -120,7 +97,7 @@ export default {
           encPassword = encryption(encPassword, VITE_PWD_ENC_KEY);
         }
         let data = {
-          username: this.phone,
+          username: this.username,
           password: encPassword,
           grant_type: 'password',
           scope: 'server'
@@ -166,7 +143,7 @@ export default {
       }
     },
     async register() {
-      if (!this.phone || !this.password || !this.nickname) {
+      if (!this.phone || !this.password ) {
         uni.showToast({
           title: "请填写数据",
           icon: "none",
@@ -175,9 +152,9 @@ export default {
       } else {
         // huanzhe
         let data = {
-          nickname: this.nickname,
           username: this.phone,
           password: this.password,
+          phone:this.phone,
         };
         let responseData = await request(registerurl, "POST", data);
         console.log('responseData', responseData);
@@ -207,14 +184,13 @@ export default {
       this.username = "";
       this.password = "";
       this.phone = "";
-
+   
       if (this.mode == "login") {
         this.mode = "register";
-        this.options();
+        // this.options();
       } else {
         this.mode = "login";
       }
-
       console.log("this.nmode", this.mode);
     },
   },
