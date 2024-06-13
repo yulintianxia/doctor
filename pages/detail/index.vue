@@ -148,7 +148,7 @@ const isFill = ref(false);
 const user = uni.getStorageSync("userData");
 let form = reactive({
   userId: "",
-  evaluatorId: user.userId,
+  evaluatorId: `${user.userId}`,
   evaluationDate: dayjs().format("YYYY-MM-DD"),
   medicalSkillRating: 0,
   moralCharacterRating: 0,
@@ -159,7 +159,7 @@ let form = reactive({
 const list = ref([]);
 
 onLoad((options) => {
-  userId.value = options.id;
+  userId.value =  `${options.id}`;
   getList();
 });
 
@@ -178,14 +178,14 @@ const changeTab = () => {
 /* 获取当前医生的评价列表 */
 const getList = async () => {
   let data = {
-    userId: Number(userId.value), // 医生的id
+    userId: `${userId.value}`  , // 医生的id
     size: 99999999,
     current: 1,
   };
   let responseData = await request(gradeList, "GET", data);
   console.log("responseData", responseData);
-  if (responseData.length > 0) {
-    list.value = responseData || [];
+  if (responseData.records?.length > 0) {
+    list.value = responseData.records || [];
   } else {
     uni.showToast({
       title: "暂无评价",
@@ -197,8 +197,8 @@ const getList = async () => {
 /* 判断是否评价了 */
 const checkIsRemark = async () => {
   let data = {
-    userId: Number(userId.value), // 医生的id
-    evaluatorId: Number(user.userId), // 患者id
+    userId: `${userId.value}`, // 医生的id
+    evaluatorId:`${user.userId}`, // 患者id
   };
 
   let responseData = await request(remarkUrl, "GET", data);
