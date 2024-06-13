@@ -24,8 +24,9 @@
         <view class="inputWrapper">
           <input class="input" type="password" v-model="password" placeholder="请输入密码" />
         </view>
-
-     
+        <view class="inputWrapper">
+          <input class="input" type="text" v-model="name" placeholder="请输入昵称" />
+        </view>
         <!--
         <view class="inputWrapper">
           <wd-picker :columns="roles" label="角色" :display-format="checkRole" v-model="role" @confirm="handleConfirm" />
@@ -143,7 +144,7 @@ export default {
       }
     },
     async register() {
-      if (!this.phone || !this.password ) {
+      if (!this.phone || !this.password  || !this.name) {
         uni.showToast({
           title: "请填写数据",
           icon: "none",
@@ -155,6 +156,8 @@ export default {
           username: this.phone,
           password: this.password,
           phone:this.phone,
+          name: this.name,
+          nickname:this.name,
         };
         let responseData = await request(registerurl, "POST", data);
         console.log('responseData', responseData);
