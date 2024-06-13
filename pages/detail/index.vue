@@ -17,16 +17,12 @@
               <view>匿名</view>
             </view>
             <view class="grade-container">
-              <view
-                >医术:&nbsp;<text class="grade">{{
-                  item.medicalSkillRating
-                }}</text
-                >&nbsp;人员:&nbsp;<text class="grade">
-                  {{ item.moralCharacterRating }}</text
-                >&nbsp;态度:&nbsp;<text class="grade"
-                  >{{ item.attitudeRating }}
-                </text></view
-              >
+              <view>医术:&nbsp;<text class="grade">{{
+                item.medicalSkillRating || '暂无'
+              }}</text>&nbsp;人员:&nbsp;<text class="grade">
+                  {{ item.moralCharacterRating || '暂无' }}</text>&nbsp;态度:&nbsp;<text class="grade">{{ item.attitudeRating
+                    || '暂无' }}
+                </text></view>
             </view>
             <view class="center_vip">
               <view class="vip_text">
@@ -43,15 +39,9 @@
       <view class="center">
         <view class="center_top">
           <view class="center_img">
-            <image
-              src="/static/imgs/yisheng.png"
-              v-if="listItem.userType != 'HZ'"
-            ></image>
-            <image
-              src="/static/imgs/bingren.png"
-              v-if="listItem.userType != 'HZ'"
-            ></image>
-    
+            <image src="/static/imgs/yisheng.png" v-if="listItem.userType != 'HZ'"></image>
+            <image src="/static/imgs/bingren.png" v-else></image>
+
           </view>
           <view class="center_info">
             <view class="center_container">
@@ -69,13 +59,8 @@
             <view class="center_vip">
               <view class="vip_text">
                 <text>{{ listItem?.introduce }}</text>
-                <wd-tag
-                  custom-class="tagContainer"
-                  v-for="(dataItem, index) in listItem.labels"
-                  plain
-                  type="primary"
-                  >{{ dataItem }}</wd-tag
-                >
+                <wd-tag custom-class="tagContainer" v-for="(dataItem, index) in listItem.labels" plain type="primary">{{
+                  dataItem }}</wd-tag>
               </view>
             </view>
           </view>
@@ -113,22 +98,15 @@
     <wd-cell-group title="备注">
       <wd-cell>
         <view class="cell-view-container">
-          <wd-textarea
-            custom-textarea-container-class="text-area"
-            custom-textarea-class="text-area-container"
-            v-model="form.remark"
-            placeholder="请填写备注"
-            :maxlength="300"
-            :no-border="true"
-            :disabled="isFill"
-          />
+          <wd-textarea custom-textarea-container-class="text-area" custom-textarea-class="text-area-container"
+            v-model="form.remark" placeholder="请填写备注" :maxlength="300" :no-border="true" :disabled="isFill" />
         </view>
       </wd-cell>
     </wd-cell-group>
     <view class="container-button" v-if="!isFill">
       <wd-button @click="submit">提交评价</wd-button>
-    </view></template
-  >
+    </view>
+  </template>
 </template>
 
 <script setup>
@@ -139,6 +117,7 @@ const userId = ref();
 const url = "doctorRatings";
 const remarkUrl = "doctorRatings/isEvaluation";
 const gradeList = `doctorRatings/evaluationList`;
+
 
 import dayjs from "dayjs";
 import { request } from "../../src/common/request.js";
@@ -159,8 +138,9 @@ const tab = ref(0);
 const getListItem = async () => {
   let responseData = await request(url + "/" + userId.value, "GET");
   console.log("responseData", responseData);
-  if (responseData.userId) {
+  if (responseData?.userId) {
     listItem.value = responseData || {};
+    console.log('listItem.value', listItem.value);
   }
 };
 
@@ -276,6 +256,7 @@ const submit = async () => {
   background: rgba(0, 0, 0, 0.05);
   padding-top: 20rpx;
   position: relative;
+
   &.list {
     height: auto;
   }
@@ -289,6 +270,7 @@ const submit = async () => {
   flex-direction: column;
   margin: 0 auto;
   border-radius: 5px;
+
   &.list {
     height: auto;
   }
@@ -302,6 +284,7 @@ const submit = async () => {
   margin-top: 20rpx;
   margin-left: 20rpx;
   border-bottom: 1px solid #eeeeee;
+
   &.list {
     height: auto;
   }
@@ -327,27 +310,31 @@ const submit = async () => {
 .center_info {
   margin-top: 14rpx;
   margin-left: 10px;
-  box-sizing:border-box;
+  box-sizing: border-box;
   width: calc(100% - 66rpx);
 }
 
 .center_container {
   font-size: 18px;
   display: flex;
+
   image {
     width: 32rpx;
     height: 32rpx;
     margin-left: 16rpx;
   }
+
   image {
     width: 32rpx;
     height: 32rpx;
     margin-left: 16rpx;
   }
+
   .grade {
     color: orange;
     font-size: 36rpx;
   }
+
   .department {
     color: rgb(77, 128, 240);
     margin-left: 10rpx;
@@ -362,6 +349,7 @@ const submit = async () => {
   font-size: 28rpx;
   margin-bottom: 10rpx;
 }
+
 :deep(.tagContainer) {
   margin: 0 10rpx;
 }
@@ -381,6 +369,7 @@ const submit = async () => {
   box-sizing: border-box;
   padding: 10rpx 0 0 20rpx !important;
   margin-top: -30rpx;
+
   textarea {
     height: 300rpx;
   }
@@ -401,13 +390,16 @@ const submit = async () => {
   text-align: center;
   margin: 20rpx auto;
 }
+
 .grade-container {
   margin-top: 10rpx;
   margin-bottom: 10rpx;
+
   .grade {
     color: orange;
   }
 }
+
 :deep(.text-area-container) {
   background: #f4f4f4;
   padding-left: 10rpx;

@@ -69,7 +69,7 @@ const { mescrollInit, downCallback, getMescroll } = useMescroll(
   onPageScroll,
   onReachBottom
 );
-const url = "user/page";
+const url = "user/doctorPage";
 import { request } from "../../src/common/request.js";
 
 const dataList = ref([]);
