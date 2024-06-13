@@ -73,7 +73,7 @@
         to="/pages/reporter/index"
         is-link
         center
-        v-if="user.userType != 'HZ'"
+        v-if="user.userType != 'HZ' && user.userType != 'GY'"
       >
       </wd-cell>
       <wd-cell
