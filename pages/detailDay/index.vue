@@ -85,6 +85,7 @@
           <view class="remark">备注：{{ item.remark || "" }}</view>
         </view>
       </view>
+      <wd-loadmore :state="state" />
     </wd-cell-group>
   </view>
 </template>
@@ -109,6 +110,7 @@ const userId = ref({});
 const getData = async () => {
   let data = {
     id: userId.value,
+    
   };
   let responseData = await request(reporterUrl, "GET", data);
 
@@ -123,18 +125,39 @@ onLoad((options) => {
   getData();
   getDailyList();
 });
+let maxNum = ref(0);
+const state = ref('loading')
+const current = ref(1);
+
 /* 获取每日打开记录 */
-const getDailyList = async () => {
+const getDailyList = async (current=1) => {
   let data = {
     userId: userId.value,
+    size: 20,
+    current,
   };
 
   let responseData = await request(detailUrl, "GET", data);
   console.log("responseData", responseData);
-  if (responseData.length) {
-    dataList.value = responseData || [];
+  if (current == 1) {
+    dataList.value = [];
+  }
+  if (responseData.records) {
+    dataList.value = dataList.value.concat(responseData.records) || [];
+    maxNum.value = responseData.total;
+    if (maxNum.value <= 20) {
+      state.value = 'finished'
+    }
   }
 };
+onReachBottom(() => {
+  if (dataList.value.length < maxNum.value) {
+    current.value += 1;
+    getDailyList(current.value);
+  } else if (dataList.value.length >= maxNum.value) {
+    state.value = 'finished'
+  }
+})
 </script>
 <style scoped lang="scss">
 .top {

@@ -62,7 +62,6 @@
           <view class="remark">市场反馈：{{ item.marketFeedback || '' }}</view>
           <view class="remark">备注：{{ item.remark || '' }}</view>
         </view>
-
       </view>
       <wd-loadmore :state="state"  />
     </wd-cell-group>
