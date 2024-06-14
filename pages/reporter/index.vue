@@ -189,9 +189,6 @@
           </view>
         </template>
       </wd-cell>
-
-      
-      
       <wd-cell>
         <template #title> 
           <view class="cell-view">

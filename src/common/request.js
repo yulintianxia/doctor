@@ -2,11 +2,9 @@
 // let baseUrl ='http://dxt50u.frpnat.cn/';
 
 /* 生产环境 */
-// let  baseUrl = 'https://www.bumanjianuo.com.cn/';
+let  baseUrl = 'https://www.bumanjianuo.com.cn/api/admin/';
 
-let baseUrl = "http://dxt50u.frpnat.cn/admin/";
-
-// let
+// let baseUrl = "http://dxt50u.frpnat.cn/admin/";
 
 /*
  * url:请求的接口地址

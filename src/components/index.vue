@@ -64,7 +64,7 @@
         </view>
 
       </view>
-      <wd-loadmore :state="state" @reload="loadmore" />
+      <wd-loadmore :state="state"  />
     </wd-cell-group>
   </view>
 </template>
@@ -90,9 +90,6 @@ const props = defineProps({
   current: 1,
   size: 20
 })
-
-
-
 
 const getData = async () => {
   let data = {
@@ -139,7 +136,8 @@ const getDailyList = async (current = 1) => {
   if (current == 1) {
     dataList.value = [];
   }
-  if (responseData.records.length) {
+
+  if (responseData.records) {
     dataList.value = dataList.value.concat(responseData.records) || [];
     maxNum.value = responseData.total;
     if (maxNum.value <= 20) {

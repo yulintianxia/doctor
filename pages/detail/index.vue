@@ -190,7 +190,7 @@ const getList = async (current = 1) => {
   if (current == 1) {
     list.value = [];
   }
-  console.log('responseData?.records',responseData.records)
+
 
   if (responseData?.records) {
     list.value = list.value.concat(responseData.records);
