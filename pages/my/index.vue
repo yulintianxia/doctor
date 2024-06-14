@@ -48,22 +48,6 @@
         </view>
       </view>
     </view>
-
-    <!-- <wd-cell-group custom-class='group-container'>
-      <wd-cell title="总评得分" title-width='120rpx' center>
-        <wd-rate v-model="value" readonly />
-      </wd-cell>
-	  <wd-cell title="医术评价" title-width='120rpx' center>
-        <wd-rate v-model="value" readonly />
-      </wd-cell>
-	  <wd-cell title="工作态度" title-width='120rpx' center>
-        <wd-rate v-model="value" readonly />
-      </wd-cell>
-	  <wd-cell title="敬业态度" title-width='120rpx' center>
-        <wd-rate v-model="value" readonly />
-      </wd-cell>
-    </wd-cell-group> -->
-    <!-- to="/pages/reporter/index" -->
     <wd-gap bg-color="#f4f4f4"></wd-gap>
     <wd-cell-group>
 

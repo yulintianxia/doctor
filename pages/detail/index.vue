@@ -33,6 +33,7 @@
         </view>
       </view>
     </view>
+    <wd-loadmore  :state="state" />
   </template>
   <template v-else>
     <view class="top">
@@ -111,13 +112,12 @@
 
 <script setup>
 import { ref, onMounted, reactive } from "vue";
-import { onLoad } from "@dcloudio/uni-app";
 const listItem = ref([]);
 const userId = ref();
 const url = "doctorRatings";
 const remarkUrl = "doctorRatings/isEvaluation";
 const gradeList = `doctorRatings/evaluationList`;
-
+import { onPageScroll, onReachBottom, onLoad } from "@dcloudio/uni-app";
 
 import dayjs from "dayjs";
 import { request } from "../../src/common/request.js";
@@ -133,6 +133,9 @@ const tabs = [
   },
 ];
 
+let maxNum = ref(0);
+const state = ref('loading')
+const current = ref(1);
 const tab = ref(0);
 
 const getListItem = async () => {
@@ -159,7 +162,7 @@ let form = reactive({
 const list = ref([]);
 
 onLoad((options) => {
-  userId.value =  `${options.id}`;
+  userId.value = `${options.id}`;
   getList();
 });
 
@@ -176,16 +179,25 @@ const changeTab = () => {
 };
 
 /* 获取当前医生的评价列表 */
-const getList = async () => {
+const getList = async (current = 1) => {
   let data = {
-    userId: `${userId.value}`  , // 医生的id
-    size: 99999999,
-    current: 1,
+    userId: `${userId.value}`, // 医生的id
+    size: 20,
+    current,
   };
   let responseData = await request(gradeList, "GET", data);
   console.log("responseData", responseData);
-  if (responseData.records?.length > 0) {
-    list.value = responseData.records || [];
+  if (current == 1) {
+    list.value = [];
+  }
+  console.log('responseData?.records',responseData.records)
+
+  if (responseData?.records) {
+    list.value = list.value.concat(responseData.records);
+    maxNum.value = responseData.total;
+    if (maxNum.value <=20) {
+        state.value = 'finished'
+    }
   } else {
     uni.showToast({
       title: "暂无评价",
@@ -194,11 +206,20 @@ const getList = async () => {
   }
 };
 
+onReachBottom(() => {
+  if (list.value.length < maxNum.value) {
+    current.value += 1;
+    getData(current.value);
+  } else if (list.value.length >= maxNum.value) {
+    state.value = 'finished'
+  }
+})
+
 /* 判断是否评价了 */
 const checkIsRemark = async () => {
   let data = {
     userId: `${userId.value}`, // 医生的id
-    evaluatorId:`${user.userId}`, // 患者id
+    evaluatorId: `${user.userId}`, // 患者id
   };
 
   let responseData = await request(remarkUrl, "GET", data);

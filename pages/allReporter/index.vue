@@ -11,6 +11,8 @@
               <view class="center_info">
                 <view class="center_name">
                   <view>{{ item.nickname }}</view>
+                  <view class="role">&nbsp;{{ item.deptName }}</view>
+                  <view class="role">&nbsp;{{ item.roleName }}</view>
                   <view v-if="item.sex == 0">
                     <image src="/static/imgs/man.png"></image>
                   </view>
@@ -21,7 +23,7 @@
                 <view class="center_vip">
                   <view>
                     <text>所在地级市:{{ item.city }}</text>
-                    <text>纯路上:{{ item.lushang }}天</text>      
+                    <text>纯路上:{{ item.lushang }}天</text>
                   </view>
                   <view>
                     <text>走门店: {{ item.mendian }} 次</text>
@@ -35,8 +37,8 @@
                     <text>义诊成交人数:{{ item.chengjiaoNum }}位</text>
                     <text>预约坐诊出单: {{ item.chudan }}罐</text>
                   </view>
-                  <view>   
-                    <text>成交客单价: {{ item.unitPrice  || 0}}元</text>
+                  <view>
+                    <text>成交客单价: {{ item.unitPrice || 0 }}元</text>
                   </view>
                 </view>
               </view>
@@ -44,6 +46,7 @@
           </view>
         </view>
       </view>
+      <wd-loadmore :state="state" />
     </wd-cell-group>
   </view>
 </template>
@@ -58,20 +61,40 @@ onMounted(() => {
   //console.log('3.-组件挂载到页面之后执行-------onMounted')
 });
 
-/* 获取用户数据 */
-const getData = async () => {
+
+let maxNum = ref(0);
+const state = ref('loading')
+const current = ref(1);
+
+/* 获取医生数据 */
+const getData = async (current = 1) => {
   let data = {
-    current: 1,
-    size: 99999999
+    current,
+    size: 20
   }
   let responseData = await request(url, "GET", data);
   console.log("responseData", responseData);
-  dataList.value = [];
+  if (current == 1) {
+    dataList.value = [];
+  }
   if (responseData.records) {
-    dataList.value = responseData.records|| [];
-    
+    dataList.value = dataList.value.concat(responseData.records);
+    maxNum.value = responseData.total;
+    if (maxNum.value <=20) {
+        state.value = 'finished'
+    }
   }
 };
+
+
+onReachBottom(() => {
+  if (dataList.value.length < maxNum.value) {
+    current.value += 1;
+    getData(current.value);
+  } else if (dataList.value.length >= maxNum.value) {
+    state.value = 'finished'
+  }
+})
 
 onLoad(() => {
   getData();
@@ -79,7 +102,7 @@ onLoad(() => {
 
 /*跳转到个人打卡记录 */
 const goDetails = (userId) => {
-  
+
   uni.navigateTo({
     url: `/pages/detailDay/index?id=${userId}`,
   });
@@ -141,10 +164,17 @@ const goDetails = (userId) => {
 .center_name {
   font-size: 18px;
   display: flex;
+
   image {
     width: 32rpx;
     height: 32rpx;
     margin-left: 16rpx;
+  }
+
+  .role {
+    margin-top: 2px;
+    font-size: 15px;
+    color: orange;
   }
 }
 
@@ -166,7 +196,7 @@ const goDetails = (userId) => {
     text-align: left;
     margin-right: 8rpx;
     margin-bottom: 10rpx;
-    font-size:15px;
+    font-size: 15px;
   }
 }
 </style>

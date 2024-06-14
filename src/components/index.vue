@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <wd-cell-group title="日报月统计总数">
+    <wd-cell-group title="日报统计总数">
       <view class="top">
         <view class="center">
           <view class="center_top">
@@ -35,28 +35,6 @@
           <view class="center_top">
             <view class="center_info">
               <view class="date">{{ item.fillingDate }}</view>
-              <!-- <view class="center_vip">
-                  <view>
-                    <text>纯路上:{{ item.lushang }}天</text>
-                    <text>走门店:{{ item.mendian }} 次</text>
-                  </view>
-                  <view>
-                    <text>预约坐诊: {{ item.yizhen }}家</text>
-                    <text>线上讲课: {{ item.jiangke }} 次</text>
-                  </view>
-                  <view>
-                    <text>预约坐诊出单: {{ item.chudan }}罐</text>
-                    <text>义诊人数: {{ item.yizhenNum }}位</text>
-                  </view>
-                  <view>
-                    <text>义诊成交人数: {{ item.chengjiaoNum }}位</text>
-                    <text>成交客单价: {{ item.unitPrice || 0}}元</text>
-                  </view>
-                  <view>   
-                    <text>所在地级市: {{ item.city }}</text>
-                  </view>
-                </view> -->
-
               <view class="center_vip">
                 <view>
                   <text>所在地级市:{{ item.city }}</text>
@@ -86,6 +64,7 @@
         </view>
 
       </view>
+      <wd-loadmore :state="state" @reload="loadmore" />
     </wd-cell-group>
   </view>
 </template>
@@ -109,8 +88,10 @@ const dataList = ref([]);
 const props = defineProps({
   id: '',
   current: 1,
-  size: 99999999
+  size: 20
 })
+
+
 
 
 const getData = async () => {
@@ -131,7 +112,6 @@ onLoad((options) => {
 });
 
 const getDataList = () => {
-  console.log('进来了');
   getData();
   getDailyList();
 };
@@ -141,23 +121,42 @@ defineExpose({
   getDataList
 })
 
+let maxNum = ref(0);
+const state = ref('loading')
+const current = ref(1);
+
 
 /* 获取每日打开记录 */
-const getDailyList = async () => {
+const getDailyList = async (current = 1) => {
   let data = {
     userId: props.id,
-    size: 99999999,
-    current:1,
+    size: 20,
+    current,
   };
 
   let responseData = await request(detailUrl, "GET", data);
   console.log("responseData", responseData);
-  dataList.value =[];
+  if (current == 1) {
+    dataList.value = [];
+  }
   if (responseData.records.length) {
-    dataList.value = responseData.records || [];
-    console.log('responseData', dataList.value);
+    dataList.value = dataList.value.concat(responseData.records) || [];
+    maxNum.value = responseData.total;
+    if (maxNum.value <= 20) {
+      state.value = 'finished'
+    }
   }
 };
+onReachBottom(() => {
+  if (dataList.value.length < maxNum.value) {
+    current.value += 1;
+    getDailyList(current.value);
+  } else if (dataList.value.length >= maxNum.value) {
+    state.value = 'finished'
+  }
+})
+
+
 </script>
 <style scoped lang="scss">
 .top {

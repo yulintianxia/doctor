@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <wd-cell-group title="日报月统计总数">
+    <wd-cell-group title="日报统计总数">
       <view class="top">
         <view class="center">
           <view class="center_top">
