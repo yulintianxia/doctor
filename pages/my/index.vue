@@ -94,6 +94,7 @@ let user = ref({});
 import { request } from "../../src/common/request.js";
 import { useMessage } from "@/uni_modules/wot-design-uni";
 const url = "doctorRatings";
+const loginOutUrl = 'auth/token/logout';
 
 onShow(() => {
   let data = uni.getStorageSync("userData");
@@ -117,7 +118,8 @@ const submit = () => {
       msg: "你是否要退出登录",
       title: "退出登录",
     })
-    .then(() => {
+    .then(async() => {
+      // await request(loginOutUrl, "DELETE");
       uni.clearStorageSync();
       uni.navigateTo({
         url: "/pages/login/index",

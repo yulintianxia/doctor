@@ -375,7 +375,7 @@
       </wd-cell>
     </wd-cell-group>
     <view class="container-button" v-if="!checkdisabled">
-      <wd-button @click="submit">提交日报记录</wd-button>
+      <wd-button :disabled="btnDisabled" @click="submit" >提交日报记录</wd-button>
     </view>
   </view>
 </template>
@@ -389,6 +389,9 @@ const checkDayRef = ref();
 
 const url = "doctor/daily";
 const reporterUrl = "doctor/daily/monthStatistics";
+
+
+let btnDisabled = ref(false);
 
 import { onPageScroll, onReachBottom, onLoad } from "@dcloudio/uni-app";
 import dayjs from "dayjs";
@@ -626,11 +629,12 @@ const submit = async () => {
     });
     return;
   }
-
+  btnDisabled.value = true;
   form = {
     ...form,
     fillingDate: dayjs(form.fillingDate).format("YYYY-MM-DD"),
   };
+  
   let responseData = await request(url, "POST", form);
 
   if (responseData) {
@@ -640,9 +644,14 @@ const submit = async () => {
       duration: 3000,
     });
     tab.value = 0;
+    
     setTimeout(() => {
+      btnDisabled.value = false;
       getReportDay();
+     
     }, 500);
+  } else {
+    btnDisabled.value = false;
   }
 };
 </script>
