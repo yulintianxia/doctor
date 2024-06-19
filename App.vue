@@ -29,6 +29,9 @@ getData();
   display: none;
 }
 
-
+:root,
+page {
+  --wot-cell-padding: 10px;
+}
 
 </style>
