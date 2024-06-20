@@ -113,12 +113,27 @@ export default {
         if (responseData.username) {
           let authorities = responseData.user_info.authorities;
           let userType = '';
+          let userTypes = [];
+          // 有bug如果有多个角色,默认是选择做大的那个
           authorities.map((item) => {
             if (userTypeArray.includes(item.authority)) {
-              userType = userTypeEnum[item.authority];
-              return
+              console.log('userTypeEnum[item.authority]',userTypeEnum[item.authority]);
+              userTypes.push(userTypeEnum[item.authority]);
             }
-          })
+          }) 
+          console.log('userTypes', userTypes);
+          if (userTypes.includes('GY')) {
+            userType ='GY';
+          } else if (userTypes.includes('ZG')) {
+            userType ='ZG';
+          } else if (userTypes.includes('ZR')) {
+            userType ='ZR';
+          } else if (userTypes.includes('HZ')) {
+            userType ='HZ';
+          } else {
+            userType ='YS';
+          }
+
           console.log('userType', userType);
           let userData = {
             username: responseData.username,
