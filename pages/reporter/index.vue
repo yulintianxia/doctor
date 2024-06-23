@@ -15,14 +15,8 @@
       <wd-cell>
         <template #title>
           <view class="cell-view-date">
-            <wd-calendar
-              @confirm="handleConfirm"
-              type="date"
-              custom-label-class="custome-label"
-              label-width="180rpx"
-              v-model="form.fillingDate"
-              label="日期选择"
-            />
+            <wd-calendar @confirm="handleConfirm" type="date" custom-label-class="custome-label" label-width="180rpx"
+              v-model="form.fillingDate" label="日期选择" />
           </view>
         </template>
       </wd-cell>
@@ -30,45 +24,16 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.city"
-              type=""
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              disabled
-            >
+            <wd-input v-model="form.city" type="text" custom-input-class="custome-input" :no-border="true" suffix="suffix"
+              prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入" disabled>
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isCity"
-                  shape="square"
-                  @change="checkDo(8)"
-                  :disabled="checkdisabled"
-                  >所在地级市</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isCity"
+                  shape="square" @change="checkDo(8)" :disabled="checkdisabled">所在地级市</wd-checkbox>
               </template>
               <template slot="suffix">
-                <wd-button
-                  type="primary"
-                  custom-class="position-btn"
-                  :disabled="!isCity || checkdisabled"
-                  size="small"
-                  @click="positionLocation"
-                  >定位</wd-button
-                >
-                <wd-button
-                  type="primary"
-                  size="small"
-                  :disabled="checkdisabled"
-                  @click="clearAddress"
-                  >清空</wd-button
-                >
+                <wd-button type="primary" custom-class="position-btn" :disabled="!isCity || checkdisabled" size="small"
+                  @click="positionLocation">定位</wd-button>
+                <wd-button type="primary" size="small" :disabled="checkdisabled" @click="clearAddress">清空</wd-button>
               </template>
             </wd-input>
           </view>
@@ -91,27 +56,12 @@
             </wd-input>
           </view> -->
           <view class="cell-view">
-            <wd-input
-              v-model="form.lushang"
-              :no-border="true"
-              custom-input-class="custome-input"
-              type="number"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isLushang || checkdisabled"
-            >
+            <wd-input v-model="form.lushang" :no-border="true" custom-input-class="custome-input" type="number"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isLushang || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isLushang"
-                  shape="square"
-                  @change="checkDo(1)"
-                  :disabled="checkdisabled"
-                  >纯路上</wd-checkbox
-                >
+                <wd-checkbox custom-label-class="checkBoxsLabel" :modelValue="isLushang" shape="square"
+                  @change="checkDo(1)" :disabled="checkdisabled">纯路上</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>天</text>
@@ -123,28 +73,12 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.mendian"
-              type="number"
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isMendian || checkdisabled"
-            >
+            <wd-input v-model="form.mendian" type="number" custom-input-class="custome-input" :no-border="true"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isMendian || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isMendian"
-                  shape="square"
-                  @change="checkDo(2)"
-                  :disabled="checkdisabled"
-                  >走门店</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isMendian"
+                  shape="square" @change="checkDo(2)" :disabled="checkdisabled">走门店</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>家</text>
@@ -156,28 +90,12 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.jiangke"
-              type="number"
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isJiangke || checkdisabled"
-            >
+            <wd-input v-model="form.jiangke" type="number" custom-input-class="custome-input" :no-border="true"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isJiangke || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isJiangke"
-                  shape="square"
-                  @change="checkDo(4)"
-                  :disabled="checkdisabled"
-                  >线上讲课</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isJiangke"
+                  shape="square" @change="checkDo(4)" :disabled="checkdisabled">线上讲课</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>次</text>
@@ -189,28 +107,12 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.yizhen"
-              type="number"
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isYizhen || checkdisabled"
-            >
+            <wd-input v-model="form.yizhen" type="number" custom-input-class="custome-input" :no-border="true"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isYizhen || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isYizhen"
-                  shape="square"
-                  :disabled="checkdisabled"
-                  @change="checkDo(3)"
-                  >预约坐诊</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isYizhen"
+                  shape="square" :disabled="checkdisabled" @change="checkDo(3)">预约坐诊</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>家</text>
@@ -222,28 +124,12 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.yizhenNum"
-              type="number"
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isYizhenNum || checkdisabled"
-            >
+            <wd-input v-model="form.yizhenNum" type="number" custom-input-class="custome-input" :no-border="true"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isYizhenNum || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isYizhenNum"
-                  shape="square"
-                  @change="checkDo(6)"
-                  :disabled="checkdisabled"
-                  >义诊人数</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isYizhenNum"
+                  shape="square" @change="checkDo(6)" :disabled="checkdisabled">义诊人数</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>位</text>
@@ -255,28 +141,12 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.chengjiaoNum"
-              type="number"
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isChengjiaoNum || checkdisabled"
-            >
+            <wd-input v-model="form.chengjiaoNum" type="number" custom-input-class="custome-input" :no-border="true"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isChengjiaoNum || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isChengjiaoNum"
-                  shape="square"
-                  @change="checkDo(7)"
-                  :disabled="checkdisabled"
-                  >义诊成交人数</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isChengjiaoNum"
+                  shape="square" @change="checkDo(7)" :disabled="checkdisabled">义诊成交人数</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>位</text>
@@ -289,28 +159,12 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.chudan"
-              type="number"
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isChudan || checkdisabled"
-            >
+            <wd-input v-model="form.chudan" type="number" custom-input-class="custome-input" :no-border="true"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isChudan || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isChudan"
-                  shape="square"
-                  @change="checkDo(5)"
-                  :disabled="checkdisabled"
-                  >预约坐诊出单</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isChudan"
+                  shape="square" @change="checkDo(5)" :disabled="checkdisabled">预约坐诊出单</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>罐</text>
@@ -322,28 +176,12 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-input
-              v-model="form.unitPrice"
-              type="number"
-              custom-input-class="custome-input"
-              :no-border="true"
-              suffix="suffix"
-              prefix="prefix"
-              :use-suffix-slot="true"
-              :use-prefix-slot="true"
-              placeholder="请输入"
-              :disabled="!isUnitPrice || checkdisabled"
-            >
+            <wd-input v-model="form.unitPrice" type="number" custom-input-class="custome-input" :no-border="true"
+              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
+              :disabled="!isUnitPrice || checkdisabled">
               <template slot="prefix">
-                <wd-checkbox
-                  class="checkBoxsLabel"
-                  custom-label-class="checkBoxsLabel"
-                  :modelValue="isUnitPrice"
-                  shape="square"
-                  @change="checkDo(9)"
-                  :disabled="checkdisabled"
-                  >成交客单价</wd-checkbox
-                >
+                <wd-checkbox class="checkBoxsLabel" custom-label-class="checkBoxsLabel" :modelValue="isUnitPrice"
+                  shape="square" @change="checkDo(9)" :disabled="checkdisabled">成交客单价</wd-checkbox>
               </template>
               <template slot="suffix">
                 <text>元</text>
@@ -358,14 +196,8 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-textarea
-              class="text-area"
-              custom-textarea-container-class="text-area"
-              v-model="form.otherWork"
-              placeholder="请填写其他工作"
-              :no-border="true"
-              :disabled="checkdisabled"
-            />
+            <wd-textarea class="text-area" custom-textarea-container-class="text-area" v-model="form.otherWork"
+              placeholder="请填写其他工作" :no-border="true" :disabled="checkdisabled" />
           </view>
         </template>
       </wd-cell>
@@ -374,14 +206,8 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-textarea
-              class="text-area"
-              custom-textarea-container-class="text-area"
-              v-model="form.marketFeedback"
-              placeholder="请填写市场反馈"
-              :no-border="true"
-              :disabled="checkdisabled"
-            />
+            <wd-textarea class="text-area" custom-textarea-container-class="text-area" v-model="form.marketFeedback"
+              placeholder="请填写市场反馈" :no-border="true" :disabled="checkdisabled" />
           </view>
         </template>
       </wd-cell>
@@ -391,28 +217,20 @@
       <wd-cell>
         <template #title>
           <view class="cell-view">
-            <wd-textarea
-              class="text-area"
-              custom-textarea-container-class="text-area"
-              v-model="form.remark"
-              placeholder="请填写备注"
-              :no-border="true"
-              :disabled="checkdisabled"
-            />
+            <wd-textarea class="text-area" custom-textarea-container-class="text-area" v-model="form.remark"
+              placeholder="请填写备注" :no-border="true" :disabled="checkdisabled" />
           </view>
         </template>
       </wd-cell>
     </wd-cell-group>
     <view class="container-button" v-if="!checkdisabled">
-      <wd-button :disabled="btnDisabled" @click="submit"
-        >提交日报记录</wd-button
-      >
+      <wd-button :disabled="btnDisabled" @click="submit">提交日报记录</wd-button>
     </view>
   </view>
 </template>
 
 <script setup>
-import { reactive, ref, nextTick, toRefs, toRaw } from "vue";
+import { reactive, ref, nextTick, toRefs, toRaw, isReactive } from "vue";
 import { request } from "../../src/common/request.js";
 import DetailDay from "../../src/components/index";
 import QQMapWX from "../../src/assets/js/qqmap-wx-jssdk";
@@ -489,7 +307,11 @@ const checkDay = async () => {
   };
 
   let responseData = await request(checkurl, "GET", data);
+  if (!isReactive(form)) {
+    form = reactive(form);
+  }
 
+  console.log(isReactive(form), 'isReactive(form)');
   if (responseData != null) {
     setTimeout(() => {
       nextTick(() => {
@@ -509,6 +331,7 @@ const checkDay = async () => {
           marketFeedback,
           id,
         } = responseData;
+
         form = Object.assign(form, {
           lushang,
           mendian,
@@ -524,8 +347,7 @@ const checkDay = async () => {
           otherWork,
           marketFeedback,
         });
-        console.log("responsedataresponsedata", responseData);
-        // checkdisabled.value = true;
+
         checkEdit(id);
       });
     }, 500);
@@ -545,6 +367,7 @@ const checkDay = async () => {
       otherWork: "",
       marketFeedback: "",
     });
+
     isLushang.value = false;
     isMendian.value = false;
     isYizhen.value = false;
@@ -660,10 +483,14 @@ const positionLocation = async () => {
 
 const getAddress = async () => {
   const location = await getLocationInfo();
-  console.log("location", location);
+  console.log("location", location.shortCity);
   // form.value.city = location.address;
-  console.log("form", form);
+
+
   form.city = location.shortCity || location.city;
+  console.log("form", form.city,);
+
+
 };
 
 onLoad(() => {
@@ -800,7 +627,7 @@ const submit = async () => {
     };
   }
 
-  let responseData = await request(url, "POST", form);
+  let responseData = await request(url, editId.value ? 'PUT' : "POST", form);
 
   if (responseData) {
     uni.showToast({
