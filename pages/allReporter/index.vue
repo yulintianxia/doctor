@@ -198,7 +198,7 @@ const goDetails = (userId) => {
     margin-bottom: 10rpx;
     font-size: 15px;
     &.address {
-      width:100%;
+      width:98%;
     }
   }
 

@@ -20,7 +20,6 @@
           </view>
         </template>
       </wd-cell>
-
       <wd-cell>
         <template #title>
           <view class="cell-view">
@@ -39,22 +38,8 @@
           </view>
         </template>
       </wd-cell>
-
       <wd-cell>
         <template #title>
-          <!-- <view class="cell-view">
-            <wd-input v-model="form.lushang" :no-border="true" custom-input-class="custome-input" type="number"
-              suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
-              :disabled="!isLushang || checkdisabled">
-              <template slot="prefix">
-                <wd-checkbox custom-label-class="checkBoxsLabel" :modelValue="isLushang" shape="square"
-                  @change="checkDo(1)" :disabled="checkdisabled">纯路上</wd-checkbox>
-              </template>
-              <template slot="suffix">
-                <text>天</text>
-              </template>
-            </wd-input>
-          </view> -->
           <view class="cell-view">
             <wd-input v-model="form.lushang" :no-border="true" custom-input-class="custome-input" type="number"
               suffix="suffix" prefix="prefix" :use-suffix-slot="true" :use-prefix-slot="true" placeholder="请输入"
@@ -418,7 +403,7 @@ const getLocationInfo = async () => {
             location.address = info.address;
             location.formatted_addresses =
               info.formatted_addresses.standard_address;
-            location.shortCity = `${location.province}${location.city}${location.area}`;
+            // location.shortCity = `${location.province}${location.city}${location.area}`;
             resolve(location);
           },
         });
@@ -487,7 +472,7 @@ const getAddress = async () => {
   // form.value.city = location.address;
 
 
-  form.city = location.shortCity || location.city;
+  form.city = location.address || location.city;
   console.log("form", form.city,);
 
 
@@ -663,6 +648,7 @@ const submit = async () => {
   border: 1px solid grey !important;
   border-radius: 8rpx;
   padding-left: 6rpx !important;
+  // width: 500rpx;
 }
 
 .text-area {

@@ -246,7 +246,7 @@ onReachBottom(() => {
     margin-right: 8rpx;
     margin-bottom: 10rpx;
     &.address {
-      width:100%;
+      width:98%;
     }
   }
 }
