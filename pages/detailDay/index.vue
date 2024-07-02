@@ -1,6 +1,6 @@
 <template>
   <view class="container">
-    <wd-cell-group title="日报月统计总数">
+    <wd-cell-group :title="'日报月统计总数('+ month+'月)'">
       <view class="top">
         <view class="center">
           <view class="center_top">
@@ -83,7 +83,6 @@
                 </view>
             </view>
           </view>
-          <!-- <view class="remark">{{ item.remark || '' }}</view> -->
           <view class="remark">其他工作：{{ item.otherWork || "" }}</view>
           <view class="remark">市场反馈：{{ item.marketFeedback || "" }}</view>
           <view class="remark">备注：{{ item.remark || "" }}</view>
@@ -100,6 +99,7 @@ import { onPageScroll, onReachBottom, onLoad } from "@dcloudio/uni-app";
 let detailUrl = "doctor/daily/monthDailyInfo";
 const reporterUrl = "doctor/daily/monthStatistics";
 import { request } from "../../src/common/request.js";
+import dayjs from 'dayjs';
 const dataObj = ref({
   lushang: "",
   yizhen: "",
@@ -107,15 +107,30 @@ const dataObj = ref({
   mendian: "",
   chudan: "",
 });
+let month = Number(dayjs().month()) +1 ;
 
 const dataList = ref([]);
 const userId = ref({});
+let startDate =''
+let endDate =''
+
+onLoad((options) => {
+  userId.value = options.id;
+  startDate =  options?.startDate || '';
+  endDate= options?.endDate || '';
+  getData();
+  getDailyList();
+});
+
+
 /* 获取用户数据 */
 const getData = async () => {
   let data = {
     id: userId.value,
-    
   };
+
+
+
   let responseData = await request(reporterUrl, "GET", data);
 
   if (responseData) {
@@ -123,12 +138,7 @@ const getData = async () => {
   }
 };
 
-onLoad((options) => {
-  userId.value = options.id;
-  console.log("options", options);
-  getData();
-  getDailyList();
-});
+
 let maxNum = ref(0);
 const state = ref('loading')
 const current = ref(1);
@@ -140,6 +150,13 @@ const getDailyList = async (current=1) => {
     size: 20,
     current,
   };
+  if (startDate && endDate) {
+    data= {
+      ...data,
+      startDate,
+      endDate
+    }
+  }
 
   let responseData = await request(detailUrl, "GET", data);
   console.log("responseData", responseData);

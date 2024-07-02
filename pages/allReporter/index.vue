@@ -1,8 +1,15 @@
 <template>
   <view class="container">
     <wd-cell-group title="部门医生列表">
+      <view class="calendar-view">
+        <wd-calendar type="monthrange" custom-class="calendar-monthrange" :inner-display-format="innerDisplayFormat"
+          :displayFormat="displayFormat" label="请选择月份" allow-same-day :max-range="6" v-model="monthrange"
+          @confirm="handleConfirm" />
+        <wd-button @click="clearBtn" size="small">清除</wd-button>
+      </view>
+
       <view v-for="(item, index) in dataList" :key="index">
-        <view class="top" @click="goDetails(item.userId)">
+        <view class="top" @click="goDetails(item.userId, item)">
           <view class="center">
             <view class="center_top">
               <view class="center_img">
@@ -56,10 +63,40 @@ import { ref, onMounted } from "vue";
 import { onPageScroll, onReachBottom, onLoad } from "@dcloudio/uni-app";
 let url = "doctor/daily/deptMonthStatistics";
 import { request } from "../../src/common/request.js";
+import dayjs from "dayjs";
 const dataList = ref([]);
 onMounted(() => {
   //console.log('3.-组件挂载到页面之后执行-------onMounted')
 });
+
+
+const displayFormat = (value) => {
+  return dayjs(value[0]).format('YYYY-MM') + ' - ' + dayjs(value[1]).format('YYYY-MM')
+}
+
+const innerDisplayFormat = (value, rangeType) => {
+  console.log(value, 'value');
+  if (value) {
+    return dayjs(value[0]).format('YYYY-MM') + ' - ' + dayjs(value[1]).format('YYYY-MM')
+  }
+}
+const monthrange = ref([]);
+
+const clearBtn = () => {
+  monthrange.value = [];
+  getData();
+}
+
+
+
+const handleConfirm = ({ value }) => {
+  if (value) {
+    monthrange.value = [dayjs(value[0]).format('YYYY-MM'), dayjs(value[1]).format('YYYY-MM')];
+    getData();
+  } else {
+    monthrange.value = [];
+  }
+}
 
 
 let maxNum = ref(0);
@@ -70,8 +107,17 @@ const current = ref(1);
 const getData = async (current = 1) => {
   let data = {
     current,
-    size: 20
+    size: 20,
   }
+  if (monthrange.value.length) {
+    data = {
+      ...data,
+      startDate: monthrange.value[0],
+      endDate: monthrange.value[1],
+    }
+  }
+
+
   let responseData = await request(url, "GET", data);
   console.log("responseData", responseData);
   if (current == 1) {
@@ -80,12 +126,11 @@ const getData = async (current = 1) => {
   if (responseData.records) {
     dataList.value = dataList.value.concat(responseData.records);
     maxNum.value = responseData.total;
-    if (maxNum.value <=20) {
-        state.value = 'finished'
+    if (maxNum.value <= 20) {
+      state.value = 'finished'
     }
   }
 };
-
 
 onReachBottom(() => {
   if (dataList.value.length < maxNum.value) {
@@ -101,11 +146,20 @@ onLoad(() => {
 });
 
 /*跳转到个人打卡记录 */
-const goDetails = (userId) => {
-
-  uni.navigateTo({
-    url: `/pages/detailDay/index?id=${userId}`,
-  });
+const goDetails = (userId,item) => {
+  let startDate, endDate
+  if (monthrange.value.length) {
+    startDate = `${dayjs(monthrange.value[0]).format('YYYY-MM')}-01`
+    endDate = `${dayjs(monthrange.value[1]).format('YYYY-MM')}-${dayjs(monthrange.value[1]).daysInMonth()}`
+    console.log('startDate',startDate, 'endDate', endDate);
+    uni.navigateTo({
+      url: `/pages/detailDay/index?id=${userId}&startDate=${startDate}&endDate=${endDate}`,
+    });
+  } else {
+    uni.navigateTo({
+      url: `/pages/detailDay/index?id=${userId}`,
+    });
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -197,16 +251,24 @@ const goDetails = (userId) => {
     margin-right: 8rpx;
     margin-bottom: 10rpx;
     font-size: 15px;
+
     &.address {
-      width:98%;
+      width: 98%;
     }
   }
+}
 
-
+.calendar-view {
+  display: flex;
+  align-items: center;
 }
 </style>
 <style>
 page {
   background: #f4f4f4 !important;
+}
+
+.calendar-monthrange {
+  flex-grow: 1 !important;
 }
 </style>
