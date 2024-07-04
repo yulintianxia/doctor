@@ -208,6 +208,17 @@
         </template>
       </wd-cell>
     </wd-cell-group>
+
+    <wd-cell-group title="上传图片">
+      <wd-cell>
+        <template #title>
+          <view class="cell-view">
+            <wd-upload :file-list="form.fileList" :limit="6" custom-class='uploadFile' action="https://ftf.jd.com/api/uploadImg"
+              @change="handleChange"></wd-upload>
+          </view>
+        </template>
+      </wd-cell>
+    </wd-cell-group>
     <view class="container-button" v-if="!checkdisabled">
       <wd-button :disabled="btnDisabled" @click="submit">提交日报记录</wd-button>
     </view>
@@ -245,7 +256,9 @@ let form = reactive({
   unitPrice: "",
   otherWork: "",
   marketFeedback: "",
+  fileList: [],
 });
+
 
 const tabs = [
   {
@@ -257,6 +270,12 @@ const tabs = [
     title: "填写日报",
   },
 ];
+
+/* 图片上传 */
+const handleChange = ({ fileList }) => {
+  console.log('fileList', fileList);
+  // form.fileList = files;
+}
 
 let checkdisabled = ref(false);
 
@@ -688,5 +707,8 @@ const submit = async () => {
 .position-btn {
   margin-right: 2px;
   margin-left: -4px;
+}
+.uploadFile {
+  padding-left:30rpx;
 }
 </style>
