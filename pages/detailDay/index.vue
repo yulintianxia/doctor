@@ -35,27 +35,6 @@
           <view class="center_top">
             <view class="center_info">
               <view class="date">{{ item.fillingDate }}</view>
-              <!-- <view class="center_vip">
-                <view>
-                  <text>纯路上:{{ item.lushang }}天</text>
-                  <text>走门店:{{ item.mendian }} 次</text>
-                </view>
-                <view>
-                  <text>预约坐诊: {{ item.yizhen }}家</text>
-                  <text>线上讲课: {{ item.jiangke }} 次</text>
-                </view>
-                <view>
-                  <text>预约坐诊出单: {{ item.chudan }}罐</text>
-                  <text>义诊人数: {{ item.yizhenNum }}位</text>
-                </view>
-                <view>
-                  <text>义诊成交人数: {{ item.chengjiaoNum }}位</text>
-                  <text>成交客单价: {{ item.unitPrice || 0 }}元</text>
-                </view>
-                <view>
-                  <text>所在地级市: {{ item.city }}</text>
-                </view>
-              </view> -->
               <view class="center_vip">
                   <view>
                     <text class="address">所在地级市:{{ item.city }}</text>
